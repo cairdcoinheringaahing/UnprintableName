@@ -1,16 +1,7 @@
-'''
-Plural mode doesn't yet work for the string compression and words.txt isn't yet finished
-'''
-
 import math
 import random
 import sys
 import string
- 
-website = 'https://github.com/ValyrioCode/Valyrio'
-name = '√ å ı ¥ ® Ï Ø ¿'
-ASCIINAME = 'Valyrio'
-interface = False
 
 class ValyrioError(Exception):
 
@@ -28,7 +19,7 @@ class ValyrioError(Exception):
 class InterpreterError(Exception):
 
     def __init__(self):
-        msg = 'Error found in interpretation. Please notify at {}'.format(website)
+        msg = 'Error found in interpretation.'
         super(InterpreterError,self).__init__(msg)
 
 class Stack:
@@ -477,36 +468,9 @@ stack = Stack()
 for i in range(100):
     stack.push(0)
 
-def help_():
-    print('''{0} Help
-{0} is a first in first out stack based language that uses CP-1252 encoding
-Numbers are to be separated by a space e.g 75 76 would be parsed as [75,76] but 7576 would stay [7576]
-The majority of characters in the latin alphabet do some command or another.
-Some example programs can be found at {1}/Examples and the source code at {1}/Source
-The characters "{0}" all do special things in this language
-For documentation go to {1}/Docs
-Help commands are "V" and "v"'''.format(name,website))
-
 def quit_(status=1):
     if status == 1:
         quit()
-'''
-    Special Characters
-    [ Start a For Loop
-    ] End a For Loop
-    { Start a While Loop
-    } End a While Loop
-    ( Start an Infinite Loop
-    ) End an Infinite Loop
-    ¿ Start an If Statement
-    ? End an If Statement
-    ' Toggle String
-    \ Interprets the stack as unicode letters and runs the resulting code
-    E End code and wipe stack (implicitly added)
-    N Negates the E command and the implicit adding of it
-    y ignores the next command
-    » Comment
-'''
 
 SPECIALS = ['[',']','{','}','(',')','¿','?',"'",'\\','E','N','y']
 
@@ -602,8 +566,6 @@ COMMANDS = {
     
     'Q':stack.quit,
     'q':quit_,
-    'v':help_,
-    'V':help_,
 
     'g':stack.saveVal,
     'G':stack.getVal,
@@ -806,10 +768,6 @@ Error       : {}
             if isinstance(char,int):
                 stack.push(char)
                 continue
-				
-            if char[0] == "«" and char[-1] == "»":
-                self.compress(char)
-                continue
 
             if len(char) > 1:
                 stack.push(char[1:-1])
@@ -862,7 +820,6 @@ Error       : {}
                     self.executeStack(stack)
 
             else:
-                
                 continue
 
 
@@ -890,68 +847,11 @@ Error       : {}
         ExcStack.stack.clear()
         stackcopy = ''.join(reversed(list(map(chr,stackcopy))))
         self.execute(stackcopy)
-		
-    def compress(self,code):
 
-        code = code[1:-1]
-        plural = int(code[0])>0
-        mode = int(code[0])%4
-        code = code[2:]
-        punc = string.punctuation + " "
+prog = sys.argv[1]
+inputs = map(eval, sys.argv[2:])
+if prog.endswith('.txt'):
+    prog = open(prog).read()
 
-        if not plural:
-            WORDS = list(map(str.strip,open("words.txt").readlines()))
-        else:
-            WORDS = list(map(str.strip,open("plural.txt").readlines()))
+run(prog,inputs)
 
-        operands = {0:str.lower,
-                    1:str.title,
-                    2:str.upper,
-                    3:str.capitalize}
-
-        words = ""
-
-        for char in code:
-
-            index = ord(char)
-
-            if index in range(3600,3645):
-                word = punc[index-3600]
-            else:
-                word = WORDS[index-32]
-
-            words += word
-            if index not in range(3600,3645):
-                words += " "
-
-        words = words[:-1] if words[-1] == " " else words
-        words = operands[mode](words)
-        stack.push(words)
-
-def main():
-
-    print('Enter Code Below')
-
-    code = input('>>> ')
-
-    if code == 'help.run[]':
-        code = 'v'
-        inputs = []
-    else:
-        print('Enter Inputs as exampled: [5,"Hello",0]')
-
-        inputs = input('>>> ')
-
-    if inputs == '':
-        inputs = 'None'
-
-    if inputs[0] != '[' and inputs[-1] != ']':
-        inputs = '['+inputs+']'
-
-    inputs = eval(inputs)
-
-    print(Script(code,inputs))
-    input('\nPress Enter to Quit.')
-
-if __name__ == '__main__' and not interface:
-    main()
