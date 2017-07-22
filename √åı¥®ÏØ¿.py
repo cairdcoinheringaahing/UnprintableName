@@ -853,5 +853,5 @@ inputs = map(eval, sys.argv[2:])
 if prog.endswith('.txt'):
     prog = open(prog).read()
 
-run(prog,inputs)
+print(Script(prog,list(inputs)))
 
