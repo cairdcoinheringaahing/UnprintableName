@@ -854,4 +854,3 @@ if prog.endswith('.txt'):
     prog = open(prog).read()
 
 print(Script(prog,list(inputs)))
-
