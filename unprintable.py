@@ -213,7 +213,7 @@ class Stack:
         for i in self.stack:
             s.append(ord(i))
         s = ''.join(s)
-        stack.push(s)
+        self.stack.push(s)
 
     def copy(self):
         self.push(*self.stack.copy())
