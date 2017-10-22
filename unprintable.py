@@ -249,10 +249,10 @@ class Stack:
             self.push(self.pop() // self.pop())
 
     def ge(self):
-        self.push(self.stack[-1] >= self.stack[-2])
+        self.push(self.stack.pop() >= self.stack.pop())
 
     def gt(self):
-        self.push(self.stack[-1] > self.stack[-2])
+        self.push(self.stack.pop() > self.stack.pop())
 
     def half(self):
         c = self.stack.copy()
@@ -271,10 +271,10 @@ class Stack:
                     return
             self.push(1)
         else:
-            self.push(self.stack[-1] == self.stack[-2])
+            self.push(self.stack.pop() == self.stack.pop())
 
     def isNot(self):
-        self.push(self.stack[-1] != self.stack[-2])
+        self.push(self.stack.pop() != self.stack.pop())
 
     def isPrime(self):
         self.push(Stack._isPrime(self.stack[-1]))
@@ -283,7 +283,7 @@ class Stack:
         self.push(self.stack in [sorted(self.stack),sorted(self.stack,reverse=True)])
 
     def le(self):
-        self.push(self.stack[-1] <= self.stack[-2])
+        self.push(self.stack.pop() <= self.stack.pop())
 
     def leftShift(self):
         self.push(self.pop())
@@ -295,7 +295,7 @@ class Stack:
         self.push(int(math.log(self.pop(),self.pop())))
 
     def lt(self):
-        self.push(self.stack[-1] < self.stack[-2])
+        self.push(self.stack.pop() < self.stack.pop())
 
     def max(self):
         self.push(max(self.stack))
@@ -320,7 +320,7 @@ class Stack:
             self.push(self.pop() * self.pop())
 
     def not_(self):
-        self.stack[-1] = int(not self.stack[-1])
+        self.stack.push(int(not self.stack.pop()))
 
     def numall(self):
         for i in self.stack:
@@ -329,10 +329,10 @@ class Stack:
             print(end=chr(self.delim))
 
     def numone(self):
-        print(self.stack[-1],end=chr(self.delim))
+        print(self.stack.pop(), end=chr(self.delim))
 
     def or_(self):
-        self.push(self.stack[-1] or self.stack[-2])
+        self.push(self.stack.pop() or self.stack.pop())
 
     def palindrome(self):
         self.push(self.stack == self.stack[::-1])
@@ -406,8 +406,8 @@ class Stack:
         self.stack.insert(0,self.pop(-1))
 
     def root(self):
-        n = self.stack[-1]
-        x = self.stack[-2]
+        n = self.stack.pop()
+        x = self.stack.pop()
         self.push(n**(1/x))
 
     def round(self):
