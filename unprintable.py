@@ -211,7 +211,7 @@ class Stack:
     def concatenate(self):
         s = []
         for i in self.stack:
-            s.append(str(i))
+            s.append(ord(i))
         s = ''.join(s)
         stack.push(s)
 
