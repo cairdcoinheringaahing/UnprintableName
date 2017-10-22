@@ -612,9 +612,6 @@ class Script:
             if char == '\n':
                 if not tstr:
                     self.error = ValyrioError(msg='No newlines allowed',char=i)
-        
-        if code.count('//') > 1:
-            self.error = ValyrioError(msg='Programs can have a maximum of one //',char=code.index('//',code.count('//')+1))
 
         self.code = code
         
