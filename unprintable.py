@@ -461,8 +461,9 @@ class Stack:
         self.push(*[sum(range(1,i+1)) for i in range(1,self.pop()+1)])
 
     def xPowNumbers(self):
-        x = self.pop()+1
-        self.push(*[i**self.pop() for i in range(1,x)])
+        x = self.pop()
+        n = self.pop()
+        self.push(*[i**n for i in range(1, x+1)])
         
 stack = Stack()
 for i in range(100):
